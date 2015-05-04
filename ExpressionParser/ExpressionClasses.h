@@ -9,6 +9,7 @@ class Expression{
 protected:
 	ShortTruthTables::TruthValue tval;
 public:
+	ShortTruthTables::Expression* parent;
 	bool isUnassigned(){
 		return tval == ShortTruthTables::UNASSIGNED;
 	}
@@ -21,8 +22,13 @@ public:
 	//true if assignment succeeds (either prev unassigned or held same value)
 	//false if there's a conflics
 	bool setTruthValue(bool val);
+	virtual std::string getExpressionType(){
+		return "Expression";
+	}
 	virtual std::string print() = 0;
-
+	virtual Expression* getLeft(){return NULL;}
+	virtual Expression* getRight(){return NULL;}
+	virtual Expression* getChild(){return NULL;}
 };
 
 class AtomicValue : public Expression{
@@ -39,12 +45,16 @@ public:
 	std::string print(){
 		return std::string(1, this->name);
 	}
+	std::string getExpressionType(){
+		return "AtomicValue";
+	}
 };
 
 //class does nothing, should never be instantiated
 class Operator : public Expression{
 public:
 	virtual bool isValid() = 0;
+
 };
 
 class UnaryOperator : public Operator{
@@ -74,6 +84,9 @@ public:
 	std::string print(){
 		return "~" + child->print();
 	}
+	std::string getExpressionType(){
+		return "NotOperator";
+	}
 };
 
 class AndOperator : public BinaryOperator{
@@ -86,6 +99,9 @@ public:
 	std::string print(){
 		return "(" + left_child->print() + " & " + right_child->print() + ")";
 	}
+	std::string getExpressionType(){
+		return "AndOperator";
+	}
 };
 
 class OrOperator : public BinaryOperator{
@@ -97,6 +113,9 @@ public:
 	bool isValid();
 	std::string print(){
 		return "(" + left_child->print() + " | " + right_child->print() + ")";
+	}
+	std::string getExpressionType(){
+		return "OrOperator";
 	}
 
 };
@@ -111,7 +130,9 @@ public:
 	std::string print(){
 		return "(" + left_child->print() + " -> " + right_child->print() + ")";
 	}
-
+	std::string getExpressionType(){
+		return "ConditionalOperator";
+	}
 };
 
 class BiConditionalOperator : public BinaryOperator{
@@ -123,6 +144,9 @@ public:
 	bool isValid();
 	std::string print(){
 		return "(" + left_child->print() + " <-> " + right_child->print() + ")";
+	}
+	std::string getExpressionType(){
+		return "BiConditionalOperator";
 	}
 };
 
