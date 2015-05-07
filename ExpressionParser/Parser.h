@@ -13,9 +13,11 @@ class ParsedExpression{
 private:
 	Expression* topLevelExpression;
 	std::map<char, std::vector<Expression*> > constant_uses;
+	std::vector<Expression*> inOrder;
 	std::map<int, Expression*> stringPlace;
 	Expression* recursiveParser(std::string::iterator &curr_pos, const std::string::iterator &end);
 	Expression* parser(std::string& input);
+	std::string preOrder;
 	std::string inOrderExp;
 	void left_to_right_map();
 
@@ -28,6 +30,15 @@ public:
 			return NULL;
 		}
 		return temp->second;
+	}
+	Expression* getNthExpression(int i ){
+		if(i > inOrder.size()){
+			return NULL;
+		}
+		return inOrder[i];
+	}
+	std::string getPreorder(){
+		return this->preOrder;
 	}
 };	
 

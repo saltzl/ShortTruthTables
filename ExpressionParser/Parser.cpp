@@ -117,7 +117,7 @@ void getExpInOrder(ShortTruthTables::Expression* exp, std::vector<ShortTruthTabl
 }
 
 void ShortTruthTables::ParsedExpression::left_to_right_map(){
-	std::vector<ShortTruthTables::Expression*> inOrder;
+	inOrder.clear();
 	getExpInOrder(this->topLevelExpression, inOrder);
 	int j = 0;
 	for(int i = 0; i < this->inOrderExp.length(); i++){
@@ -174,6 +174,7 @@ void ShortTruthTables::ParsedExpression::left_to_right_map(){
 }
 
 ShortTruthTables::ParsedExpression::ParsedExpression(std::string exp){
+	this->preorder = exp;
 	this->topLevelExpression = this->parser(exp);
 	this->inOrderExp = topLevelExpression->print();
 	this->left_to_right_map();
