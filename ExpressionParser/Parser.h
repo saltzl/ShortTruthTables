@@ -40,6 +40,12 @@ public:
 	std::string getPreorder(){
 		return this->preOrder;
 	}
+	int getNumExpressions(){
+		return inOrder.size();
+	}
+	void setTruthValue(bool tval){
+		topLevelExpression->setTruthValue(tval);
+	}
 };	
 
 }// end namespace ShortTruthTables

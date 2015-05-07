@@ -3,6 +3,7 @@
 #include <ctype.h>
 #include <cassert>
 #include <iostream>
+#include <stdexcept>
 
 class Expression;
 //(OP (OP CONST) CONST)
@@ -19,7 +20,7 @@ ShortTruthTables::Expression* ShortTruthTables::ParsedExpression::recursiveParse
 			ShortTruthTables::Expression* child = recursiveParser(curr_pos, end);
 			resultOperation = new ShortTruthTables::NotOperator(child);
 			child->parent = resultOperation;
-			assert(*curr_pos == ')');
+			if(*curr_pos != ')')  throw std::invalid_argument( "poorly formed expression" );
 			curr_pos++;
 			if(*curr_pos == ' '){
 				curr_pos++;
@@ -32,7 +33,7 @@ ShortTruthTables::Expression* ShortTruthTables::ParsedExpression::recursiveParse
 			resultOperation = new ShortTruthTables::OrOperator(left,right);
 			left->parent = resultOperation;
 			right->parent = resultOperation;
-			assert(*curr_pos == ')');
+			if(*curr_pos != ')')  throw std::invalid_argument( "poorly formed expression" );
 			curr_pos++;
 			if(*curr_pos == ' '){
 				curr_pos++;
@@ -45,7 +46,7 @@ ShortTruthTables::Expression* ShortTruthTables::ParsedExpression::recursiveParse
 			resultOperation = new ShortTruthTables::AndOperator(left,right);
 			left->parent = resultOperation;
 			right->parent = resultOperation;
-			assert(*curr_pos == ')');
+			if(*curr_pos != ')')  throw std::invalid_argument( "poorly formed expression" );
 			curr_pos++;
 			if(*curr_pos == ' '){
 				curr_pos++;
@@ -58,7 +59,7 @@ ShortTruthTables::Expression* ShortTruthTables::ParsedExpression::recursiveParse
 			resultOperation = new ShortTruthTables::ConditionalOperator(left,right);
 			left->parent = resultOperation;
 			right->parent = resultOperation;
-			assert(*curr_pos == ')');
+			if(*curr_pos != ')')  throw std::invalid_argument( "poorly formed expression" );
 			curr_pos++;
 			if(*curr_pos == ' '){
 				curr_pos++;
@@ -71,14 +72,14 @@ ShortTruthTables::Expression* ShortTruthTables::ParsedExpression::recursiveParse
 			resultOperation = new ShortTruthTables::BiConditionalOperator(left,right);
 			left->parent = resultOperation;
 			right->parent = resultOperation;
-			assert(*curr_pos == ')');
+			if(*curr_pos != ')')  throw std::invalid_argument( "poorly formed expression" );
 			curr_pos++;
 			if(*curr_pos == ' '){
 				curr_pos++;
 			}
 			return resultOperation;
 		}else{
-			std::cerr << "Unrecognized Operation" << std::endl;
+			throw std::invalid_argument( "poorly formed expression" );			
 		}
 
 	}else if(isalpha(*curr_pos) && isupper(*curr_pos)){
@@ -92,7 +93,11 @@ ShortTruthTables::Expression* ShortTruthTables::ParsedExpression::recursiveParse
 		}else if(*curr_pos == ' '){
 			curr_pos++;
 			return constant;
+		}else{
+			throw std::invalid_argument( "poorly formed expression" );
 		}
+	}else{
+		throw std::invalid_argument( "poorly formed expression" );
 	}
 }
 
@@ -174,7 +179,7 @@ void ShortTruthTables::ParsedExpression::left_to_right_map(){
 }
 
 ShortTruthTables::ParsedExpression::ParsedExpression(std::string exp){
-	this->preorder = exp;
+	this->preOrder = exp;
 	this->topLevelExpression = this->parser(exp);
 	this->inOrderExp = topLevelExpression->print();
 	this->left_to_right_map();

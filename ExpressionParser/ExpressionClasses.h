@@ -19,6 +19,9 @@ public:
 	bool isAssignedFalse(){
 		return tval == ShortTruthTables::ASSIGNED_FALSE;
 	}
+	TruthValue getTVal(){
+		return tval;
+	}
 	//true if assignment succeeds (either prev unassigned or held same value)
 	//false if there's a conflics
 	bool setTruthValue(bool val);

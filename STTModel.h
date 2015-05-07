@@ -3,7 +3,7 @@
 
 #include "ExpressionParser/ExpressionClasses.h"
 #include "ExpressionParser/Parser.h"
-#include "TruthValue.h"
+#include "TruthValues.h"
 #include <vector>
 #include <string>
 
@@ -29,6 +29,12 @@ public:
 	ParsedExpression* getPremise(int i);
 	ParsedExpression* getConclusion();
 	TruthValue valueOfExp(int expNum, int pos_in_string);
+	int getNumPremises(){
+		return premises.size();
+	}
+	bool has_conclusion(){
+		return conclusion != NULL;
+	}
 
 };
 
