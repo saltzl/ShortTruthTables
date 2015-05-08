@@ -14,6 +14,8 @@ class STTModel
 private:
 	std::vector<ParsedExpression*> premises;
 	ParsedExpression* conclusion;
+	std::map<char, std::vector<Expression*> > constant_uses;
+
 public:
 	STTModel();
 	~STTModel();
@@ -35,6 +37,7 @@ public:
 	bool has_conclusion(){
 		return conclusion != NULL;
 	}
+	bool is_valid_and_finished();
 
 };
 

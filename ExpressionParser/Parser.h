@@ -46,6 +46,16 @@ public:
 	void setTruthValue(bool tval){
 		topLevelExpression->setTruthValue(tval);
 	}
+	std::vector<Expression*> uses_of_char(char c){
+		return constant_uses.find(c)->second;
+	}
+	std::vector<char> constants(){
+		std::vector<char> result;
+		for(std::map<char, std::vector<Expression*> >::iterator iter = constant_uses.begin(); iter != constant_uses.end(); iter++){
+			result.push_back(iter->first);
+		}
+		return result;
+	}
 };	
 
 }// end namespace ShortTruthTables

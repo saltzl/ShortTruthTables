@@ -90,7 +90,7 @@ void addConclusion(ShortTruthTables::STTModel* model){
 	}
 }
 void printSubExpressions(ShortTruthTables::ParsedExpression* expression){
-	std::cout << "SubExpressions of: " << expression->getInOrderExp() << std::endl;
+	std::cout << "Subexpressions of: " << expression->getInOrderExp() << std::endl;
 	for(int i = 0; i < expression->getNumExpressions(); i++){
 		ShortTruthTables::TruthValue tval = expression->getNthExpression(i)->getTVal();
 		std::string assignment;
@@ -109,6 +109,22 @@ void assignPremise(ShortTruthTables::STTModel* model, int i){
 	ShortTruthTables::ParsedExpression* expression = model->getPremise(i);
 	while(true){
 		printSubExpressions(expression);
+		std::cout << "Enter the subexpression you wish to assign a value to: ";
+		int i;
+		std::cin >> i;
+		if(i >= expression->getNumExpressions()) continue;
+		std::cout << "T or F: ";
+		char c;
+		std::cin >> c;
+		if(c == 'T'){
+			expression->getNthExpression(i)->setTruthValue(true);
+		}else if(c == 'F'){
+			expression->getNthExpression(i)->setTruthValue(false);
+		}else if(c == 'q'){
+			return;
+		}else{
+			continue;
+		}
 		return;
 	}
 }
@@ -117,6 +133,22 @@ void assignConclusion(ShortTruthTables::STTModel* model){
 	ShortTruthTables::ParsedExpression* expression = model->getConclusion();
 	while(true){
 		printSubExpressions(expression);
+		std::cout << "Enter the subexpression you wish to assign a value to: ";
+		int i;
+		std::cin >> i;
+		if(i >= expression->getNumExpressions()) continue;
+		std::cout << "T or F: ";
+		char c;
+		std::cin >> c;
+		if(c == 'T'){
+			expression->getNthExpression(i)->setTruthValue(true);
+		}else if(c == 'F'){
+			expression->getNthExpression(i)->setTruthValue(false);
+		}else if(c == 'q'){
+			return;
+		}else{
+			continue;
+		}
 		return;
 	}
 }
@@ -132,8 +164,10 @@ void makeAssignment(ShortTruthTables::STTModel* model){
 			if(command-'0' >= model->getNumPremises()) continue;
 			assignPremise(model, command-'1'+1);
 			return;
-		}else if(command == 'q'){
+		}else if(command == 'c'){
 			assignConclusion(model);
+			return;
+		}else if(command == 'q'){
 			return;
 		}
 	}
