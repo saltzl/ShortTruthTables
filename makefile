@@ -5,7 +5,7 @@ SOURCES=STTModel.cpp ExpressionParser/ExpressionClasses.cpp ExpressionParser/Par
 CLI=STTCommandLineInterface.cpp
 MODELOBJECTS=$(SOURCES:.cpp=.o)
 CLOBJ=$(CLI:.cpp=.o)
-EXECUTABLE=stt-cli.exe
+EXECUTABLE=stt-cli
 UICPP=STTUIMain.cpp mainWindow.cpp
 UIOBJ=$(UICPP:.cpp=.o)
 UIFLAGS=`pkg-config --cflags --libs gtkmm-2.4` -static-libgcc -static-libstdc++
