@@ -29,6 +29,7 @@ public:
 		return "Expression";
 	}
 	virtual std::string print() = 0;
+	virtual bool isValid() = 0;
 	virtual Expression* getLeft(){return NULL;}
 	virtual Expression* getRight(){return NULL;}
 	virtual Expression* getChild(){return NULL;}
@@ -50,6 +51,9 @@ public:
 	}
 	std::string getExpressionType(){
 		return "AtomicValue";
+	}
+	bool isValid(){
+		return true;
 	}
 };
 

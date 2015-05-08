@@ -1,9 +1,9 @@
 #include "ExpressionClasses.h"
 
 bool ShortTruthTables::Expression::setTruthValue(bool val){
-	if(val && tval != ShortTruthTables::ASSIGNED_FALSE){
+	if(val){
 		tval = ShortTruthTables::ASSIGNED_TRUE;
-	}else if(!val && tval != ShortTruthTables::ASSIGNED_TRUE){
+	}else if(!val){
 		tval = ShortTruthTables::ASSIGNED_FALSE;
 	}else{
 		return false;

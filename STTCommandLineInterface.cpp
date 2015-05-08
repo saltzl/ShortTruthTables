@@ -173,6 +173,54 @@ void makeAssignment(ShortTruthTables::STTModel* model){
 	}
 }
 
+void solve(ShortTruthTables::STTModel* model){
+	std::cout << "Is argument valid or invalid? (v/i): ";
+	char c;
+	std::cin >> c;
+	if(c == 'v'){
+		for(int i = 0; i < model->getNumPremises(); i++){
+			for(int j = 0; j < model->getPremise(i)->getNumExpressions(); j++){
+				bool flag = (model->getPremise(i)->getNthExpression(j)->isValid());
+				if(!flag && !model->getPremise(i)->getNthExpression(j)->isUnassigned()){
+					std::cout << "Argument is valid, cannot make all premises true with conclusion false" << std::endl;
+					return;
+				}
+			}
+		}
+
+		for(int i = 0; i < model->getConclusion()->getNumExpressions(); i++){
+			bool flag = (model->getConclusion()->getNthExpression(i)->isValid());
+				if(!flag && !model->getConclusion()->getNthExpression(i)->isUnassigned()){
+					std::cout << "Argument is valid, cannot make all premises true with conclusion false" << std::endl;
+					return;
+				}
+		}
+		std::cout << "Argument is not currently valid" << std::endl;
+		return;
+	}else if( c == 'i'){
+		for(int i = 0; i < model->getNumPremises(); i++){
+			for(int j = 0; j < model->getPremise(i)->getNumExpressions(); j++){
+				bool flag = (!model->getPremise(i)->getNthExpression(j)->isUnassigned() && model->getPremise(i)->getNthExpression(j)->isValid());
+				if(!flag){
+					std::cout << "argument is not currently invalid" << std::endl;
+					return;
+				}
+			}
+		}
+
+		for(int i = 0; i < model->getConclusion()->getNumExpressions(); i++){
+			bool flag = (!model->getConclusion()->getNthExpression(i)->isUnassigned() && model->getConclusion()->getNthExpression(i)->isValid());
+				if(!flag){
+					std::cout << "argument is not currently invalid" << std::endl;
+					return;
+				}
+		}
+		std::cout << "Argument is indeed invalid, all premises true with conclusion false" << std::endl;
+		return;
+	}else{
+		return;
+	}
+}
 void programLoop(ShortTruthTables::STTModel* model){
 	std::string command;
 	while(true){
@@ -191,6 +239,8 @@ void programLoop(ShortTruthTables::STTModel* model){
 			displayCurrentState(model);
 		}else if(command == "a"){
 			makeAssignment(model);
+		}else if(command == "s"){
+			solve(model);
 		}else{
 			optionsMenu();
 		}
