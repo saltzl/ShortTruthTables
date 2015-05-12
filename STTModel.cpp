@@ -44,12 +44,3 @@ ShortTruthTables::TruthValue ShortTruthTables::STTModel::valueOfExp(int expNum, 
 ShortTruthTables::STTModel::STTModel(){
 	this->conclusion = NULL;
 }
-
-bool ShortTruthTables::STTModel::is_valid_and_finished(){
-	bool valid = true;
-	for(int i = 0; i < premises.size(); i++){
-		for(int j = 0; j < premises[i]->getNumExpressions(); j++){
-
-		}
-	}
-}
