@@ -1,46 +1,61 @@
-/*
- * Compile me with:
- *   gcc -o tut tut.c $(pkg-config --cflags --libs gtk+-2.0 gmodule-2.0)
- */
+#include <gtkmm.h>
+#include <iostream>
+#include <cstdlib>
+#include "STTPremiseDialogView.h"
+#include "STTModel.h"
+#include "STTConcDialogView.h"
+Glib::RefPtr<Gtk::Builder> refBuilder;
+Glib::RefPtr<Gtk::Application> app;
+Gtk::Window* mainWindow = 0;
+Gtk::Button* premiseButton;
+Gtk::Button* conclusionButton;
 
-#include <gtk/gtk.h>
 
-int
-main( int    argc,
-      char **argv )
+
+int main (int argc, char **argv)
 {
-    GtkBuilder *builder;
-    GtkWidget  *window;
-    GError     *error = NULL;
+  ShortTruthTables::STTModel* model = new ShortTruthTables::STTModel();
+  app = Gtk::Application::create(argc, argv, "com.rpi.saltzl.stt");
 
-    /* Init GTK+ */
-    gtk_init( &argc, &argv );
+  //Load the GtkBuilder file and instantiate its widgets:
+  refBuilder = Gtk::Builder::create();
+  try
+  {
+    refBuilder->add_from_file("interface_prototype.glade");
+  }
+  catch(const Glib::FileError& ex)
+  {
+    std::cerr << "FileError: " << ex.what() << std::endl;
+    return 1;
+  }
+  catch(const Glib::MarkupError& ex)
+  {
+    std::cerr << "MarkupError: " << ex.what() << std::endl;
+    return 1;
+  }
+  catch(const Gtk::BuilderError& ex)
+  {
+    std::cerr << "BuilderError: " << ex.what() << std::endl;
+    return 1;
+  }
 
-    /* Create new GtkBuilder object */
-    builder = gtk_builder_new();
-    /* Load UI from file. If error occurs, report it and quit application.
-     * Replace "tut.glade" with your saved project. */
-    if( ! gtk_builder_add_from_file( builder, "interface_prototype.glade", &error ) )
-    {
-        g_warning( "%s", error->message );
-        g_free( error );
-        return( 1 );
-    }
+  //Get the GtkBuilder-instantiated Dialog:
+  refBuilder->get_widget("mainWindow", mainWindow);
+  PremDialog premView(refBuilder, model, mainWindow);
+  ConcDialog concView(refBuilder,model,mainWindow);
+  if(mainWindow)
+  {
+    refBuilder->get_widget("premButton", premiseButton);
+    premiseButton->signal_clicked().connect( sigc::mem_fun(premView, &PremDialog::show) );
 
-    /* Get main window pointer from UI */
-    window = GTK_WIDGET( gtk_builder_get_object( builder, "mainWindow" ) );
+    refBuilder->get_widget("concButton", conclusionButton);
+    conclusionButton->signal_clicked().connect( sigc::mem_fun(concView, &ConcDialog::show) );
 
-    /* Connect signals */
-    gtk_builder_connect_signals( builder, NULL );
 
-    /* Destroy builder, since we don't need it anymore */
-    g_object_unref( G_OBJECT( builder ) );
+    app->run(*mainWindow);
+  }
 
-    /* Show window. All other widgets are automatically shown by GtkBuilder */
-    gtk_widget_show( window );
+  delete mainWindow;
 
-    /* Start main loop */
-    gtk_main();
-
-    return( 0 );
+  return 0;
 }

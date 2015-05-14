@@ -6,9 +6,9 @@ CLI=STTCommandLineInterface.cpp
 MODELOBJECTS=$(SOURCES:.cpp=.o)
 CLOBJ=$(CLI:.cpp=.o)
 EXECUTABLE=stt-cli
-UICPP=STTUIMain.cpp mainWindow.cpp
+UICPP=STTUIMain.cpp STTPremiseDialogView.cpp STTConcDialogView.cpp ExpressionButton.cpp
 UIOBJ=$(UICPP:.cpp=.o)
-UIFLAGS=`pkg-config --cflags --libs gtkmm-2.4` -static-libgcc -static-libstdc++
+UIFLAGS=`pkg-config --cflags --libs gtkmm-3.0` -static-libgcc -static-libstdc++
 UIEXE=stt-gui.exe
 
 all: $(EXECUTABLE)

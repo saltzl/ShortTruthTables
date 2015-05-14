@@ -56,6 +56,9 @@ public:
 		}
 		return result;
 	}
+	bool isTopLevel(Expression* exp){
+		return exp == topLevelExpression;
+	}
 };	
 
 }// end namespace ShortTruthTables

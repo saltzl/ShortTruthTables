@@ -10,6 +10,7 @@ protected:
 	ShortTruthTables::TruthValue tval;
 public:
 	ShortTruthTables::Expression* parent;
+	virtual std::string getExpChar() = 0;
 	bool isUnassigned(){
 		return tval == ShortTruthTables::UNASSIGNED;
 	}
@@ -55,6 +56,9 @@ public:
 	bool isValid(){
 		return true;
 	}
+	std::string getExpChar(){
+		return print();
+	}
 };
 
 //class does nothing, should never be instantiated
@@ -94,6 +98,9 @@ public:
 	std::string getExpressionType(){
 		return "NotOperator";
 	}
+	std::string getExpChar(){
+		return "¬";
+	}
 };
 
 class AndOperator : public BinaryOperator{
@@ -109,6 +116,9 @@ public:
 	std::string getExpressionType(){
 		return "AndOperator";
 	}
+	std::string getExpChar(){
+		return "∧";
+	}
 };
 
 class OrOperator : public BinaryOperator{
@@ -123,6 +133,9 @@ public:
 	}
 	std::string getExpressionType(){
 		return "OrOperator";
+	}
+	std::string getExpChar(){
+		return "∨";
 	}
 
 };
@@ -140,6 +153,9 @@ public:
 	std::string getExpressionType(){
 		return "ConditionalOperator";
 	}
+	std::string getExpChar(){
+		return "→";
+	}
 };
 
 class BiConditionalOperator : public BinaryOperator{
@@ -154,6 +170,9 @@ public:
 	}
 	std::string getExpressionType(){
 		return "BiConditionalOperator";
+	}
+	std::string getExpChar(){
+		return "↔";
 	}
 };
 

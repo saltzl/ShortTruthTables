@@ -18,7 +18,7 @@ private:
 
 public:
 	STTModel();
-	~STTModel();
+	// ~STTModel();
 	void addPremise(std::string preorder);
 	//true if overwrote previous conclusion
 	bool addConclusion(std::string preorder);
