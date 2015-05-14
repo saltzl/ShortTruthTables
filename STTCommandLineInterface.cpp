@@ -21,6 +21,9 @@ void printTruthVals(ShortTruthTables::ParsedExpression* exp){
 	int len = exp->getInOrderExp().length();
 	for(int i = 0; i < len; i++){
 		if(exp->expressionAtPosition(i) != NULL){
+			if(exp->expressionAtPosition(i)->getExpressionType() == "BiConditionalOperator"){
+				result.push_back(' ');
+			}
 			if(exp->expressionAtPosition(i)->isUnassigned()){
 				result.push_back(' ');
 			}
@@ -30,6 +33,9 @@ void printTruthVals(ShortTruthTables::ParsedExpression* exp){
 				result.push_back('F');
 			}
 		}else{
+			if(exp->expressionAtPosition(i-1) != NULL && exp->expressionAtPosition(i-1)->getExpressionType() == "BiConditionalOperator"){
+				continue;
+			}
 			result.push_back(' ');
 		}
 	}
