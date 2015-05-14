@@ -34,6 +34,8 @@ public:
 	virtual Expression* getLeft(){return NULL;}
 	virtual Expression* getRight(){return NULL;}
 	virtual Expression* getChild(){return NULL;}
+	virtual bool canAssignChild(Expression* child, bool tval) = 0;
+	virtual bool canAssignSelf(bool tval) = 0;
 };
 
 class AtomicValue : public Expression{
@@ -59,6 +61,13 @@ public:
 	std::string getExpChar(){
 		return print();
 	}
+	bool canAssignChild(Expression* child, bool tval){
+		return false;
+	}
+	bool canAssignSelf(bool tval){
+		return true;
+	}
+
 };
 
 //class does nothing, should never be instantiated
@@ -101,6 +110,8 @@ public:
 	std::string getExpChar(){
 		return "¬";
 	}
+	bool canAssignChild(Expression* child, bool tval);
+	bool canAssignSelf(bool tval);
 };
 
 class AndOperator : public BinaryOperator{
@@ -119,6 +130,9 @@ public:
 	std::string getExpChar(){
 		return "∧";
 	}
+	bool canAssignChild(Expression* child, bool tval);
+	bool canAssignSelf(bool tval);
+
 };
 
 class OrOperator : public BinaryOperator{
@@ -137,7 +151,8 @@ public:
 	std::string getExpChar(){
 		return "∨";
 	}
-
+	bool canAssignChild(Expression* child, bool tval);
+	bool canAssignSelf(bool tval);
 };
 
 class ConditionalOperator : public BinaryOperator{
@@ -156,6 +171,9 @@ public:
 	std::string getExpChar(){
 		return "→";
 	}
+	bool canAssignChild(Expression* child, bool tval);
+	bool canAssignSelf(bool tval);
+
 };
 
 class BiConditionalOperator : public BinaryOperator{
@@ -174,6 +192,9 @@ public:
 	std::string getExpChar(){
 		return "↔";
 	}
+	bool canAssignChild(Expression* child, bool tval);
+	bool canAssignSelf(bool tval);
+
 };
 
 }

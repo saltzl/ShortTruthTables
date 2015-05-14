@@ -31,7 +31,8 @@ void ConcDialog::accept_clicked(){
 				temp->show();
 				conc_grid->add(*temp);
 			}else{
-				ExpressionButton* temp = Gtk::manage(new ExpressionButton(new_exp->expressionAtPosition(j), conc_grid));
+				ExpressionButton* temp = Gtk::manage(new ExpressionButton(new_exp->expressionAtPosition(j), conc_grid, this->model));
+				temp->set_exp_num_and_pos(-1, j);
 				temp->show();
 				conc_grid->add(*temp);
 				if(new_exp->isTopLevel(new_exp->expressionAtPosition(j))){

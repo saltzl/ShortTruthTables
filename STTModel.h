@@ -28,6 +28,8 @@ public:
 	//tval true or false
 	//returns: bool: true if succesfull, false if exp already had a value or didn't exist.
 	bool assignTruthValue(int expNum, int pos_in_string, bool tval);
+	bool can_assign_TVal(int expNum, int pos_in_string, bool tval);
+
 	ParsedExpression* getPremise(int i);
 	ParsedExpression* getConclusion();
 	TruthValue valueOfExp(int expNum, int pos_in_string);
@@ -37,6 +39,7 @@ public:
 	bool has_conclusion(){
 		return conclusion != NULL;
 	}
+	
 };
 
 }//end namespace

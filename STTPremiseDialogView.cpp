@@ -31,7 +31,8 @@ void PremDialog::accept_clicked(){
 				temp->show();
 				prem_grid->add(*temp);
 			}else{
-				ExpressionButton* temp = Gtk::manage(new ExpressionButton(new_exp->expressionAtPosition(j), prem_grid));
+				ExpressionButton* temp = Gtk::manage(new ExpressionButton(new_exp->expressionAtPosition(j), prem_grid, this->model));
+				temp->set_exp_num_and_pos(i, j);
 				temp->show();
 				prem_grid->add(*temp);
 				if(new_exp->isTopLevel(new_exp->expressionAtPosition(j))){

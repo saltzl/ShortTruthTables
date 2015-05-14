@@ -4,6 +4,8 @@
 #include "STTPremiseDialogView.h"
 #include "STTModel.h"
 #include "STTConcDialogView.h"
+
+
 Glib::RefPtr<Gtk::Builder> refBuilder;
 Glib::RefPtr<Gtk::Application> app;
 Gtk::Window* mainWindow = 0;
@@ -45,6 +47,7 @@ int main (int argc, char **argv)
   ConcDialog concView(refBuilder,model,mainWindow);
   if(mainWindow)
   {
+    // mainWindow->set_default_size(800,600);
     refBuilder->get_widget("premButton", premiseButton);
     premiseButton->signal_clicked().connect( sigc::mem_fun(premView, &PremDialog::show) );
 
